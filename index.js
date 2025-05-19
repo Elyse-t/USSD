@@ -14,19 +14,37 @@ app.post('/ussd', (req, res) => {
 
     switch (text) {
         case '':
-            response = `CON What would you like to check\n1. My account\n2. My phone number`;
+            response = `CON Welcome to SwiftPass\n1. Book a ticket\n2. My phone number`;
             break;
+
         case '1':
-            response = `CON Choose account information you want to view\n1. Account number`;
+            response = `CON Choose your destination:\n1. Kigali to Musanze\n2. Kigali to Huye`;
             break;
+
+        case '1*1':
+            response = `CON You selected Kigali to Musanze\n1. Confirm\n2. Cancel`;
+            break;
+
+        case '1*2':
+            response = `CON You selected Kigali to Huye\n1. Confirm\n2. Cancel`;
+            break;
+
+        case '1*1*1':
+        case '1*2*1':
+            response = `END Your ticket has been booked successfully!\nYou will receive an SMS confirmation.`;
+            break;
+
+        case '1*1*2':
+        case '1*2*2':
+            response = `END Ticket booking cancelled.`;
+            break;
+
         case '2':
             response = `END Your phone number is ${phoneNumber}`;
             break;
-        case '1*1':
-            response = `END Your account number is ACC100101`;
-            break;
+
         default:
-            response = `END Invalid option`;
+            response = `END Invalid option. Please try again.`;
     }
 
     res.set('Content-Type', 'text/plain');
@@ -34,5 +52,5 @@ app.post('/ussd', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port ${3000}`);
 });
